@@ -30,7 +30,7 @@ class UserAuth extends Controller
     public function logout(Request $req) {
         Auth::logout();
         $req->session()->forget('user');
-        return redirect('/login');
+        return redirect('login');
     }
 }
 
