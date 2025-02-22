@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('poneys', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('nom');
             $table->integer('heures_max');
             $table->integer('heures');
         });

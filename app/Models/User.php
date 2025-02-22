@@ -26,4 +26,6 @@ class User extends Authenticatable
     protected $casts = [
         'mdp' => 'hashed',
     ];
+
+    public $timestamps = false;
 }

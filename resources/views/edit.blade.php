@@ -7,7 +7,7 @@
         @method('PUT')
 
         <label>Nom du Poney:</label>
-        <input type="text" name="nom_poney" value="{{ $poney->name }}" required>
+        <input type="text" name="nom_poney" value="{{ $poney->nom }}" required>
 
         <label>Heures Max:</label>
         <input type="number" name="heures_max" value="{{ $poney->heures_max }}" required>

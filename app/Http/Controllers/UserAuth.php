@@ -23,14 +23,13 @@ class UserAuth extends Controller
         }
 
         Auth::login($user);
-        $req->session()->put('user', $user);
+        return redirect()->route('rendezvous.index');
 
-        return redirect('accueil');
     }
     public function logout(Request $req) {
         Auth::logout();
         $req->session()->forget('user');
-        return redirect('login');
+        return redirect('/login');
     }
 }
 

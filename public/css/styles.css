@@ -31,7 +31,7 @@ nav a:hover {
 
 main {
   padding: 2rem;
-  max-width: 900px;
+  max-width: 95%;
   margin: auto;
   background-color: white;
   border-radius: 8px;
@@ -127,5 +127,5 @@ body.login-page {
 
 .main-container section {
   flex: 1; 
-  max-width: 48%;
+  max-width: 50%;
 }

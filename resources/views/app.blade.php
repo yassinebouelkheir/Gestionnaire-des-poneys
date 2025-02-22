@@ -9,10 +9,10 @@
 <body>
 	<header>
 		<nav>
-			<a href="accueil">Accueil</a>
-			<a href="poneys">Gestion des poneys</a>
-			<a href="historique">Historique</a>
-      <a href="deconnexion">Déconnexion</a>
+			<a href="/rendezvous">Accueil</a>
+			<a href="/poneys">Gestion des poneys</a>
+			<a href="/historique">Historique</a>
+      <a href="/deconnexion">Déconnexion</a>
 		</nav>
 	</header>
 	<main>

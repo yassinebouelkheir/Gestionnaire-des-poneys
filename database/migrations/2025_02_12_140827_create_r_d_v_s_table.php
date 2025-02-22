@@ -13,14 +13,15 @@ return new class extends Migration
     {
         Schema::create('rendez_vous', function (Blueprint $table) {
             $table->id();
-            $table->string('nom_client'),
-            $table->integer('heures'),
-            $table->integer('prix'),
-            $table->timestamp('date_time'),
-            $table->integer('poney_1'),
-            $table->integer('poney_2'),
-            $table->integer('poney_3'),
-            $table->integer('poney_4'),
+            $table->string('nom_client');
+            $table->integer('heures');
+            $table->integer('prix');
+            $table->integer('personnes');
+            $table->timestamp('date_time');
+            $table->integer('poney_1');
+            $table->integer('poney_2');
+            $table->integer('poney_3');
+            $table->integer('poney_4');
         });
     }
 

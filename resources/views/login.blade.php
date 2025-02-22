@@ -9,7 +9,7 @@
   <body class="login-page">
     <div class="login-container">
         <h1>ESA WEBCS 2025</h1><br>
-        <form method="POST" action="{{ route('login') }}">
+        <form method="POST" action="/login">
             @csrf
 
             <label for="nom_utilisateur">Nom d'utilisateur</label>
@@ -17,7 +17,9 @@
 
             <label for="mdp">Password</label>
             <input type="password" id="mdp" name="mdp" required>
-
+            @if ($errors->has('mdp'))
+                <p style="color: red;">{{ $errors->first('mdp') }}</p>
+            @endif
             <button type="submit">Connexion</button>
         </form>
     </div>
