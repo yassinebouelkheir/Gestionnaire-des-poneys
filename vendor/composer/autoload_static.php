@@ -588,10 +588,13 @@ class ComposerStaticInit626b9e7ddd47fb7eff9aaa53cce0c9ad
     );
 
     public static $classMap = array (
+        'App\\Console\\Commands\\ResetPoneyHeures' => __DIR__ . '/../..' . '/app/Console/Commands/ResetPoneyHeures.php',
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
+        'App\\Http\\Controllers\\HistoriqueController' => __DIR__ . '/../..' . '/app/Http/Controllers/HistoriqueController.php',
         'App\\Http\\Controllers\\PoneyController' => __DIR__ . '/../..' . '/app/Http/Controllers/PoneyController.php',
         'App\\Http\\Controllers\\RendezVousController' => __DIR__ . '/../..' . '/app/Http/Controllers/RendezVousController.php',
         'App\\Http\\Controllers\\UserAuth' => __DIR__ . '/../..' . '/app/Http/Controllers/UserAuth.php',
+        'App\\Models\\Historique' => __DIR__ . '/../..' . '/app/Models/Historique.php',
         'App\\Models\\Poney' => __DIR__ . '/../..' . '/app/Models/Poney.php',
         'App\\Models\\RDV' => __DIR__ . '/../..' . '/app/Models/RDV.php',
         'App\\Models\\User' => __DIR__ . '/../..' . '/app/Models/User.php',
@@ -713,8 +716,13 @@ class ComposerStaticInit626b9e7ddd47fb7eff9aaa53cce0c9ad
         'Cron\\HoursField' => __DIR__ . '/..' . '/dragonmantank/cron-expression/src/Cron/HoursField.php',
         'Cron\\MinutesField' => __DIR__ . '/..' . '/dragonmantank/cron-expression/src/Cron/MinutesField.php',
         'Cron\\MonthField' => __DIR__ . '/..' . '/dragonmantank/cron-expression/src/Cron/MonthField.php',
+        'Database\\Factories\\HistoriqueFactory' => __DIR__ . '/../..' . '/database/factories/HistoriqueFactory.php',
         'Database\\Factories\\UserFactory' => __DIR__ . '/../..' . '/database/factories/UserFactory.php',
         'Database\\Seeders\\DatabaseSeeder' => __DIR__ . '/../..' . '/database/seeders/DatabaseSeeder.php',
+        'Database\\Seeders\\HistoriqueSeeder' => __DIR__ . '/../..' . '/database/seeders/HistoriqueSeeder.php',
+        'Database\\Seeders\\PoneySeeder' => __DIR__ . '/../..' . '/database/seeders/PoneySeeder.php',
+        'Database\\Seeders\\RDVSeeder' => __DIR__ . '/../..' . '/database/seeders/RDVSeeder.php',
+        'Database\\Seeders\\UserSeeder' => __DIR__ . '/../..' . '/database/seeders/UserSeeder.php',
         'DateError' => __DIR__ . '/..' . '/symfony/polyfill-php83/Resources/stubs/DateError.php',
         'DateException' => __DIR__ . '/..' . '/symfony/polyfill-php83/Resources/stubs/DateException.php',
         'DateInvalidOperationException' => __DIR__ . '/..' . '/symfony/polyfill-php83/Resources/stubs/DateInvalidOperationException.php',

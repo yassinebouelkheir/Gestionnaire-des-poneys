@@ -31,7 +31,7 @@
                                 {{ $rdv->poneyFour?->nom ?? '-' }}
                             </td>
                             <td>{{ $rdv->personnes }}</td>
-                            <td>€ {{ $rdv->prix }}</td>
+                            <td>€ {{ number_format($rdv->prix, 0, ',', ' ') }}</td>
                             <td>
                                 <button class="edit-btn"
                                     data-id="{{ $rdv->id }}"
@@ -69,11 +69,11 @@
                 </label>
 
                 <label>Heures
-                    <input type="number" name="heures" id="heures" min=0 max=4 required>
+                    <input type="number" name="heures" id="heures" min=0 max=8 required>
                 </label>
 
                 <label>Prix
-                    <input type="number" name="prix" id="prix" min=0 max=4 required>
+                    <input type="number" name="prix" id="prix" min=0 required>
                 </label>
 
                 <label>Nbr Personnes
@@ -81,7 +81,7 @@
                 </label>
 
                 <label>Heure du rendez-vous
-                    <input type="time" name="date_time" id="date-time" min="{{ now()->timezone('Europe/Brussels')->format('H:i') }}" max="17:00" required>
+                    <input type="time" name="date_time" id="date-time" min="{{ now()->timezone('Europe/Brussels')->format('H:i') }}" required>
                 </label>
                 @for ($i = 1; $i <= 4; $i++)
                     <label>Poney {{ $i }}
@@ -121,31 +121,6 @@
             const dateTimeField = document.getElementById("date-time");
             const selects = document.querySelectorAll(".pony-select");
             const editButtons = document.querySelectorAll(".edit-btn");
-
-            function updateOptions() {
-                let selectedValues = new Set();
-
-                selects.forEach(select => {
-                    if (select.value) {
-                        selectedValues.add(select.value);
-                    }
-                });
-
-                selects.forEach(select => {
-                    let currentValue = select.value;
-                    select.querySelectorAll("option").forEach(option => {
-                        if (option.value && option.value !== currentValue) {
-                            option.disabled = selectedValues.has(option.value);
-                        }
-                    });
-                });
-            }
-
-            selects.forEach(select => {
-                select.addEventListener("change", updateOptions);
-            });
-
-            updateOptions();
 
             editButtons.forEach(button => {
                 button.addEventListener("click", function() {

@@ -2,11 +2,10 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserAuth;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\PoneyController;
 use App\Http\Controllers\RendezVousController;
-use Illuminate\Support\Facades\Auth;
-
-Route::get('/reset-poney-hours', [JobController::class, 'resetPoneyHours']);
+use App\Http\Controllers\HistoriqueController;
 
 Route::get('/', function () {
     return Auth::check() ? redirect('/rendezvous') : redirect('/login');
@@ -27,9 +26,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/rendezvous', [RendezVousController::class, 'index'])->name('rendezvous.index');
     Route::post('/rendezvous', [RendezVousController::class, 'store'])->name('rendezvous.store'); 
     Route::post('/rendezvous/cancel/{id}', [RendezVousController::class, 'cancel'])->name('rendezvous.cancel');
-
-    Route::get('/historique', function () {
-        return view('historique');
-    })->name('historique');
+    Route::get('/historique', [HistoriqueController::class, 'index'])->name('historique');
     Route::get('deconnexion', [UserAuth::class, 'logout'])->name('deconnexion');
 });

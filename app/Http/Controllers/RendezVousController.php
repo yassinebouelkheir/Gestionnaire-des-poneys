@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\RDV;
 use App\Models\Poney;
+use App\Models\Historique;
 use Illuminate\Http\Request;
 
 class RendezVousController extends Controller
@@ -16,7 +18,6 @@ class RendezVousController extends Controller
 
         return view('rendezvous', compact('rendezvous', 'poneys'));
     }
-
 
     public function store(Request $request)
     {
@@ -61,35 +62,56 @@ class RendezVousController extends Controller
                 ]);
             }
         }
+
         if ($request->rdv_id) {
-            $rdv = RDV::findOrFail($request->rdv_id);
-            $rdv->update([
-                'poney_1' => $request->poney_1,
-                'poney_2' => $request->poney_2,
-                'poney_3' => $request->poney_3,
-                'poney_4' => $request->poney_4,
-            ]);
+            $rdv = RDV::find($request->rdv_id);
+            if (!$rdv) {
+                return redirect()->back()->with('error', 'Ce rendezvous est introuvable.');
+            }
 
-            return redirect()->route('rendezvous.index')->with('success', 'Poneys mis à jour avec succès.');
+            $oldPoneys = [$rdv->poney_1, $rdv->poney_2, $rdv->poney_3, $rdv->poney_4];
+            foreach ($oldPoneys as $poneyId) {
+                if ($poneyId) {
+                    $poney = Poney::find($poneyId);
+                    if ($poney) {
+                        $poney->heures -= $rdv->heures;
+                        $poney->save();
+                    }
+                }
+            }
+
+            $rdv->update($validated);
+
+            $newPoneys = [$request->poney_1, $request->poney_2, $request->poney_3, $request->poney_4];
+            foreach ($newPoneys as $poneyId) {
+                if ($poneyId) {
+                    $poney = Poney::find($poneyId);
+                    if ($poney) {
+                        $poney->heures += $request->heures;
+                        $poney->save();
+                    }
+                }
+            }
+
+            return redirect()->route('rendezvous.index')->with('success', 'Rendezvous a été mise à jour.');
+        } else {
+            $rdv = RDV::create($validated);
+
+            $this->updateHistorique($request->nom_client, $request->prix, $request->heures);
+
+            $newPoneys = [$request->poney_1, $request->poney_2, $request->poney_3, $request->poney_4];
+            foreach ($newPoneys as $poneyId) {
+                if ($poneyId) {
+                    $poney = Poney::find($poneyId);
+                    if ($poney) {
+                        $poney->heures += $request->heures;
+                        $poney->save();
+                    }
+                }
+            }
+
+            return redirect()->route('rendezvous.index')->with('success', 'Rendezvous a été crée avec succès.');
         }
-        $rdv = RDV::create([
-            'nom_client' => $validated['nom_client'],
-            'heures' => $heures,
-            'prix' => $validated['prix'],
-            'personnes' => $validated['personnes'],
-            'date_time' => $validated['date_time'],
-            'poney_1' => $validated['poney_1'],
-            'poney_2' => $validated['poney_2'],
-            'poney_3' => $validated['poney_3'],
-            'poney_4' => $validated['poney_4'],
-
-        ]);
-
-        foreach ($ponies as $poney) {
-            $poney->increment('heures', $heures);
-        }
-
-        return redirect()->back()->with('success', 'Rendez-vous ajouté avec succès.');
     }
 
     public function cancel($id)
@@ -101,8 +123,43 @@ class RendezVousController extends Controller
 
         Poney::whereIn('id', $poneyIds)->decrement('heures', $heures);
 
+        $this->updateHistorique($rdv->nom_client, -$rdv->prix, -$rdv->heures);
+
         $rdv->delete();
 
         return redirect()->back()->with('success', 'Rendezvous annulé avec succès');
+    }
+
+    private function updateHistorique($nom_client, $prix, $heures)
+    {
+        $now = Carbon::now();
+        $annee = $now->format('Y');
+
+        $frenchMonths = [
+            '01' => 'Janvier',
+            '02' => 'Février',
+            '03' => 'Mars',
+            '04' => 'Avril',
+            '05' => 'Mai',
+            '06' => 'Juin',
+            '07' => 'Juillet',
+            '08' => 'Août',
+            '09' => 'Septembre',
+            '10' => 'Octobre',
+            '11' => 'Novembre',
+            '12' => 'Décembre',
+        ];
+
+        $mois = $frenchMonths[$now->format('m')];
+        $historique = Historique::firstOrNew([
+            'nom' => $nom_client,
+            'mois' => $mois,
+            'année' => $annee
+        ]);
+
+        $historique->total += $prix;
+        $historique->heures += $heures;
+
+        $historique->save();
     }
 }
